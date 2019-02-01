@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<head>
+    <title>Counter</title>
+    <script src = "https://unpkg.com/react@16.6.3/umd/react.development.js"></script>
+    <script src = "https://unpkg.com/react-dom@16.6.3/umd/react-dom.development.js"></script>
+    <script src = "https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+    <link rel = "stylesheet" href = "https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity = "sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+    crossorigin = "anonymous">
+    <style>
+        #wrapper {
+            background-color: lightgrey;
+            padding-top: 15px;
+            padding-bottom: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        h2 {
+            font-size: 40px;
+        }
+        #singlecounter {
+            display: block;
+            margin: 20px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            background-color: rgb(92, 192, 150);
+            width: 350px;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        button {
+            margin: 20px;
+            text-align: center;
+        }
+        #createcounter {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id = "wrapper">
+        <h1>Counter</h1>
+        <div id = "counter"></div>
+    </div>
+
+    <script type = "text/babel">
+    class Counter extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {
+                counter: [{num: 0}]
+            }
+            this.newcounter = this.newcounter.bind(this);
+            this.addOne = this.addOne.bind(this);
+            this.subtractOne = this.subtractOne.bind(this);
+        }
+
+        newcounter() {
+            this.setState({counter: [...this.state.counter, {num: 0} ] });
+        }
+
+        addOne(c) {
+            c.num = c.num + 1;
+            this.forceUpdate();
+        }
+
+        subtractOne(c) {
+            c.num = c.num - 1;
+            this.forceUpdate();
+        }
+
+        createcounter() {
+            var counter = this.state.counter.map((c, i) => {
+                return (
+                    <div id = "singlecounter" key = {i}>
+                        <h2>{c.num}</h2>
+                        <button className = "btn btn-success"
+                        onClick = { () => this.addOne(c) }>Add one</button>
+                        <button className = "btn btn-secondary"
+                        onClick = { () => this.subtractOne(c) }>Subtract one</button>
+                    </div>
+                )
+            });
+            return counter;
+        }
+
+        render() {
+            return (
+                <div>
+                    <button className = "btn btn-info" id = "createcounter" onClick = { 
+                    this.newcounter}>Add another counter</button>
+
+                    {this.createcounter()}
+                </div>
+            )
+        }
+    }
+
+    ReactDOM.render(<Counter/>, document.getElementById("counter"));
+    </script>
+</body>
+</html>
